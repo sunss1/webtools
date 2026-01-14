@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Preview Elite | 顶级预览工具集</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --accent-1: #ff007a; /* 玫红 */
+            --accent-2: #7000ff; /* 极光紫 */
+            --accent-3: #00d4ff; /* 赛博蓝 */
+            --accent-4: #00ff95; /* 荧光绿 */
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 动态极光氛围背景 - 更加柔和且高级 */
+        .aurora-container {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            filter: blur(120px);
+            opacity: 0.6;
+        }
+
+        .orb {
+            position: absolute;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            animation: drift 20s infinite alternate ease-in-out;
+        }
+        .orb-1 { background: var(--accent-1); top: -200px; left: -100px; opacity: 0.4; }
+        .orb-2 { background: var(--accent-2); bottom: -200px; right: -100px; animation-delay: -5s; opacity: 0.3; }
+        .orb-3 { background: var(--accent-3); top: 30%; left: 40%; animation-duration: 25s; opacity: 0.2; }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 150px) scale(1.2); }
+        }
+
+        /* 内容布局 */
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 24px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .pre-title {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.75rem;
+            color: var(--accent-3);
+            margin-bottom: 12px;
+            display: block;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 网格卡片 - 增强层级感 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* 卡片主体：彻底修正点击范围和层级 */
+        .card-anchor {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            border-radius: 32px;
+            transition: transform 0.4s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 悬停时的光效边缘 */
+        .card-anchor:hover .card {
+            border-color: var(--item-color);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-anchor:hover {
+            transform: translateY(-12px);
+        }
+
+        /* 图标设计 */
+        .icon {
+            width: 64px; height: 64px;
+            background: #111;
+            border-radius: 20px;
+            display: flex;
+            align-items: center; justify-content: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--item-color);
+            box-shadow: inset 0 0 15px var(--item-color);
+        }
+
+        h2 { font-size: 1.6rem; margin-bottom: 16px; font-weight: 700; letter-spacing: -0.5px; }
+        p { color: var(--text-muted); line-height: 1.7; font-size: 1rem; flex-grow: 1; }
+
+        .action-label {
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--item-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 每个卡片的专属色彩方案 */
+        .c1 { --item-color: var(--accent-1); }
+        .c2 { --item-color: var(--accent-2); }
+        .c3 { --item-color: var(--accent-3); }
+        .c4 { --item-color: var(--accent-4); }
+
+        footer {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .wrapper { padding: 60px 20px; }
+            h1 { font-size: 2.8rem; }
+            .card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aurora-container">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="wrapper">
+        <header>
+            <span class="pre-title">Zero Config • Fast Deployment</span>
+            <h1>Code to Cloud<br>Instantly.</h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+                摒弃平庸，选择卓越。为您精选四大顶级 HTML 预览平台，让您的创意在毫秒间触达世界。
+            </p>
+        </header>
+
+        <main class="grid">
+            <a href="https://tiiny.host" target="_blank" rel="noopener" class="card-anchor c1">
+                <div class="card">
+                    <div class="icon">🚀</div>
+                    <h2>Tiiny Host</h2>
+                    <p>全球最轻量的静态托管工具。只需将 HTML 拖入浏览器，即可生成简洁、专业的预览链接。</p>
+                    <div class="action-label">立即部署 <span>→</span></div>
+                </div>
+            </a>
+
+            <a href="https://playcode.io" target="_blank" rel="noopener" class="card-anchor c2">
+                <div class="card">
+                    <div class="icon">⚡</div>
+                    <h2>PlayCode</h2>
+                    <p>专为速度而生的在线 IDE。提供实时预览与多文件管理，适合需要高频率调试的项目。</p>
+                    <div class="action-label">开启编码 <span>→</span></div>
+                </div>
+            </a>
+
+            <a href="https://html.onlineviewer.net" target="_blank" rel="noopener" class="card-anchor c3">
+                <div class="card">
+                    <div class="icon">💎</div>
+                    <h2>HTML Viewer</h2>
+                    <p>极致纯粹的代码预览体验。无需冗余功能，粘贴即看，为您还原最真实的代码渲染效果。</p>
+                    <div class="action-label">快速预览 <span>→</span></div>
+                </div>
+            </a>
+
+            <a href="https://codepen.io/pen/" target="_blank" rel="noopener" class="card-anchor c4">
+                <div class="card">
+                    <div class="icon">🎨</div>
+                    <h2>CodePen</h2>
+                    <p>前端艺术家的殿堂。不仅是预览工具，更是寻找灵感、展示代码魅力的全球社交沙盒。</p>
+                    <div class="action-label">寻找灵感 <span>→</span></div>
+                </div>
+            </a>
+        </main>
+
+        <footer>
+            <p>© 2026 WebPreview Elite. 精心打磨，只为不凡。</p>
+        </footer>
+    </div>
+
+</body>
+</html>
